@@ -18,38 +18,28 @@ class Scraper:
 
     def get_flights(self):
         #In list below: Flight times, Airline, # of Stops, Layover Airport Code, Travel Duration, Price
-        # desired_class_names = ['vmXl vmXl-mod-variant-large','c_cgF c_cgF-mod-variant-default','JWEO-stops-text','c_cgF c_cgF-mod-variant-default','vmXl vmXl-mod-variant-default','f8F1-price-text']
+        # desired_class_names = ['vmXl vmXl-mod-variant-large','c_cgF c_cgF-mod-variant-default','vmXl vmXl-mod-variant-default','c_cgF c_cgF-mod-variant-default','vmXl vmXl-mod-variant-default','f8F1-price-text']
 
         driver = webdriver.Chrome()
 
         url="https://www.kayak.com/flights/JFK-ATH/2023-06-06?sort=bestflight_a"
         driver.get(url)
-        sleep(10)
+        sleep(7)
 
-        # flights = driver.find_elements(By.CSS_SELECTOR, 'div.nrc6')
-        # print(flights, len(flights))
-        # for flight in flights:
-        #     price = flight.find_element(By.CSS_SELECTOR, 'div.f8F1-price-text')
-        #     print(price)
-        wait = WebDriverWait(driver, 10)
-        desired_class_names = ['vmXl vmXl-mod-variant-large','c_cgF c_cgF-mod-variant-default','JWEO-stops-text','c_cgF c_cgF-mod-variant-default','vmXl vmXl-mod-variant-default','f8F1-price-text']
+        desired_class_names = ['vmXl vmXl-mod-variant-large','c_cgF c_cgF-mod-variant-default','vmXl vmXl-mod-variant-default','f8F1-price-text']
         parent_elmnt_flights = driver.find_elements(By.XPATH, "//div[@class='nrc6']")
-        for parent_elmnt_flight in parent_elmnt_flights:
-            for class_name in desired_class_names:
-                # desired_elmnts = parent_elmnt_flight.find_elements(By.XPATH, f".//*[contains(@class, '{class_name}')]")
-                element = wait.until(EC.presence_of_element_located((By.XPATH, f"//div[@class='nrc6']//*[contains(@class, '{class_name}')]")))
 
-                for desired_elmnt in desired_elmnts:
-                    flight_details = {
-                        'Flight Time': desired_elmnt.text,
-                        'Airline': desired_elmnt.text,
-                        'Number of Stops': desired_elmnt.text,
-                        'Layover Airport Code': desired_elmnt.text,
-                        'Travel Duration': desired_elmnt.text,
-                        'Price': desired_elmnt.text
-                    }
+
+        for i in desired_class_names:
+            child_components = parent_elmnt_flights[0].find_elements(By.XPATH, f".//*[contains(@class, '{i}')]")
+            if child_components:
+                for cc in child_components:
+                    print(cc.text)
+                print('----------')
+
+
+
                     
-                    print(flight_details)
             
 
 
