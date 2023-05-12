@@ -29,13 +29,17 @@ class Scraper:
         desired_class_names = ['vmXl vmXl-mod-variant-large','c_cgF c_cgF-mod-variant-default','vmXl vmXl-mod-variant-default','f8F1-price-text']
         parent_elmnt_flights = driver.find_elements(By.XPATH, "//div[@class='nrc6']")
 
+        all_element_contents = []
 
         for i in desired_class_names:
             child_components = parent_elmnt_flights[0].find_elements(By.XPATH, f".//*[contains(@class, '{i}')]")
             if child_components:
                 for cc in child_components:
+                    all_element_contents.append(cc.text)
                     print(cc.text)
                 print('----------')
+        
+        print(all_element_contents)
 
 
 
